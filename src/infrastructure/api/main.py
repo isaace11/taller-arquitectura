@@ -6,7 +6,7 @@ del sistema.
 """
 
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -212,5 +212,5 @@ def health_check() -> dict:
     """
     return {
         "status": "ok",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }

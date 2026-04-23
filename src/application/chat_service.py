@@ -6,7 +6,7 @@ del usuario, construir contexto conversacional, llamar al servicio
 de IA y almacenar el historial del chat.
 """
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List, Optional
 
 from src.application.dtos import (
@@ -88,7 +88,7 @@ class ChatService:
                 context=context,
             )
 
-            timestamp = datetime.utcnow()
+            timestamp = datetime.now(UTC)
 
             user_message = ChatMessage(
                 id=None,

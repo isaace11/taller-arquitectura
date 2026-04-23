@@ -1,13 +1,12 @@
 """
-DTOs de la capa de aplicación.
-Validan y transfieren datos entre la API, servicios y otras capas
-
+DTOs de la capa de aplicacion.
+Validan y transfieren datos entre la API, servicios y otras capas.
 """
 
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, ConfigDict, field_validator
 
 
 class ProductDTO(BaseModel):
@@ -18,15 +17,17 @@ class ProductDTO(BaseModel):
         id (Optional[int]): Identificador del producto.
         name (str): Nombre del producto.
         brand (str): Marca del producto.
-        category (str): Categoría del producto.
+        category (str): Categoria del producto.
         size (str): Talla del producto.
         color (str): Color del producto.
         price (float): Precio del producto.
         stock (int): Cantidad disponible.
-        description (str): Descripción del producto.
+        description (str): Descripcion del producto.
     """
 
-    id: Optional[int] = None  
+    model_config = ConfigDict(from_attributes=True)
+
+    id: Optional[int] = None
     name: str
     brand: str
     category: str
@@ -36,7 +37,8 @@ class ProductDTO(BaseModel):
     stock: int
     description: str
 
-    @validator("price")
+    @field_validator("price")
+    @classmethod
     def price_must_be_positive(cls, value: float) -> float:
         """
         Valida que el precio sea mayor a cero.
@@ -54,7 +56,8 @@ class ProductDTO(BaseModel):
             raise ValueError("El precio debe ser mayor a 0")
         return value
 
-    @validator("stock")
+    @field_validator("stock")
+    @classmethod
     def stock_must_be_non_negative(cls, value: int) -> int:
         """
         Valida que el stock no sea negativo.
@@ -72,30 +75,24 @@ class ProductDTO(BaseModel):
             raise ValueError("El stock no puede ser negativo")
         return value
 
-    class Config:
-        """
-        Configuración del modelo Pydantic.
-        """
-
-        from_attributes = True
-
 
 class ChatMessageRequestDTO(BaseModel):
     """
     DTO para recibir mensajes del usuario en el chat.
 
     Attributes:
-        session_id (str): Identificador de la sesión.
+        session_id (str): Identificador de la sesion.
         message (str): Mensaje enviado por el usuario.
     """
 
     session_id: str
     message: str
 
-    @validator("message")
+    @field_validator("message")
+    @classmethod
     def message_not_empty(cls, value: str) -> str:
         """
-        Valida que el mensaje no esté vacío.
+        Valida que el mensaje no este vacio.
 
         Args:
             value (str): Mensaje a validar.
@@ -104,16 +101,17 @@ class ChatMessageRequestDTO(BaseModel):
             str: Mensaje validado.
 
         Raises:
-            ValueError: Si el mensaje está vacío.
+            ValueError: Si el mensaje esta vacio.
         """
         if not value or not value.strip():
-            raise ValueError("El mensaje no puede estar vacío")
+            raise ValueError("El mensaje no puede estar vacio")
         return value
 
-    @validator("session_id")
+    @field_validator("session_id")
+    @classmethod
     def session_id_not_empty(cls, value: str) -> str:
         """
-        Valida que el identificador de sesión no esté vacío.
+        Valida que el identificador de sesion no este vacio.
 
         Args:
             value (str): session_id a validar.
@@ -122,10 +120,10 @@ class ChatMessageRequestDTO(BaseModel):
             str: session_id validado.
 
         Raises:
-            ValueError: Si el session_id está vacío.
+            ValueError: Si el session_id esta vacio.
         """
         if not value or not value.strip():
-            raise ValueError("El session_id no puede estar vacío")
+            raise ValueError("El session_id no puede estar vacio")
         return value
 
 
@@ -134,7 +132,7 @@ class ChatMessageResponseDTO(BaseModel):
     DTO para enviar la respuesta del chat.
 
     Attributes:
-        session_id (str): Identificador de la sesión.
+        session_id (str): Identificador de la sesion.
         user_message (str): Mensaje enviado por el usuario.
         assistant_message (str): Respuesta generada por el asistente.
         timestamp (datetime): Fecha y hora de la respuesta.
@@ -157,14 +155,9 @@ class ChatHistoryDTO(BaseModel):
         timestamp (datetime): Fecha y hora del mensaje.
     """
 
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     role: str
     message: str
     timestamp: datetime
-
-    class Config:
-        """
-        Configuración del modelo Pydantic.
-        """
-
-        from_attributes = True
