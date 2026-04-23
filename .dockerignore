@@ -8,3 +8,7 @@ __pycache__
 .env
 .pytest_cache
 htmlcov
+tests
+tests/.tmp
+.coverage
+data/*.db
