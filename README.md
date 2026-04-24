@@ -2,6 +2,14 @@
 
 API REST de e-commerce de zapatos con chat inteligente construida con Clean Architecture, FastAPI, SQLAlchemy, SQLite y Google Gemini.
 
+## Características
+- API REST para gestión de productos
+- Chatbot con Google Gemini
+- Historial conversacional persistente con SQLite
+- Arquitectura limpia (Domain, Application, Infrastructure)
+- Contenerización con Docker
+- Documentación asertiva con Swagger
+
 ## Descripcion
 
 Este proyecto implementa una tienda de zapatos con dos funcionalidades principales:
@@ -132,6 +140,10 @@ docker compose down
 - `DELETE /chat/history/{session_id}`
 - `GET /health`
 
+
+# Flujo de la app:
+Cliente -> FastAPI -> Servicios de Aplicación (Gemini) -> Repositorios -> SQLite
+
 ## Ejemplos de uso
 
 ### Obtener productos
@@ -199,72 +211,21 @@ taller-arquitectura/
 
 Las capturas del taller deben guardarse en la carpeta `evidencias/` con estos nombres:
 
-- `evidencias/01-swagger-ui.png`
+- `evidencias/01-swagger-ui-1.png`
+- `evidencias/01-swagger-ui-2.png`
 - `evidencias/02-docker-logs.png`
 - `evidencias/03-docker-running.png`
-- `evidencias/04-api-call-products.png`
-- `evidencias/05-api-call-chat.png`
-- `evidencias/06-database.png`
+- `evidencias/04-api-call-products-1.png`
+- `evidencias/04-api-call-products-2.png`
+- `evidencias/05-api-call-chat-1.png`
+- `evidencias/05-api-call-chat-2.png`
+- `evidencias/06-database-1.png`
+- `evidencias/06-database-2.png`
 
 ### Checklist de evidencias
 
-#### 1. Swagger UI
 
-Archivo: `evidencias/01-swagger-ui.png`
-
-Debes mostrar:
-
-- `http://127.0.0.1:8000/docs`
-- endpoints visibles
-- fecha y hora del sistema
-
-#### 2. Logs de Docker
-
-Archivo: `evidencias/02-docker-logs.png`
-
-Debes mostrar:
-
-- salida de `docker compose logs`
-- nombre de usuario o prompt visible
-- fecha y hora del sistema
-
-#### 3. Docker corriendo
-
-Archivo: `evidencias/03-docker-running.png`
-
-Debes mostrar:
-
-- Docker Desktop con el contenedor arriba o la salida de `docker compose ps`
-
-#### 4. Llamado a `/products`
-
-Archivo: `evidencias/04-api-call-products.png`
-
-Debes mostrar:
-
-- request exitoso a `GET /products`
-- lista de productos retornada
-
-#### 5. Llamado a `/chat`
-
-Archivo: `evidencias/05-api-call-chat.png`
-
-Debes mostrar:
-
-- request exitoso a `POST /chat`
-- mensaje enviado
-- respuesta de la IA
-
-#### 6. Base de datos
-
-Archivo: `evidencias/06-database.png`
-
-Debes mostrar:
-
-- archivo SQLite del proyecto
-- tabla de productos cargada
-
-## Comandos sugeridos para generar evidencias
+## Comandos usados para ver evidencias:
 
 ### Ver logs de Docker
 
@@ -292,38 +253,12 @@ Invoke-WebRequest `
   -Uri http://127.0.0.1:8000/chat `
   -Method POST `
   -ContentType "application/json" `
-  -Body '{"session_id":"cliente-001","message":"Busco zapatos para correr talla 42"}' |
+  -Body '{"session_id":"cliente1","message":"Hola, busco zapatos para una salida casual"}' |
   Select-Object -ExpandProperty Content
 ```
 
-## Como completar manualmente este README
+## Hecho por:
 
-Cuando ya tengas tus capturas, puedes dejarlas dentro de `evidencias/` con los nombres pedidos y luego agregar este bloque al final del README si quieres que GitHub las muestre:
+Isabel Acevedo Acosta. 24/04/26
 
-```markdown
-## Evidencias visuales
 
-### Swagger UI
-![Swagger UI](evidencias/01-swagger-ui.png)
-
-### Logs de Docker
-![Docker Logs](evidencias/02-docker-logs.png)
-
-### Docker corriendo
-![Docker Running](evidencias/03-docker-running.png)
-
-### Llamado a products
-![API Products](evidencias/04-api-call-products.png)
-
-### Llamado al chat
-![API Chat](evidencias/05-api-call-chat.png)
-
-### Base de datos
-![Database](evidencias/06-database.png)
-```
-
-Si no quieres incrustar las imagenes en el README, no pasa nada. Para el taller normalmente basta con que la carpeta `evidencias/` exista y contenga los archivos con esos nombres.
-
-## Autor
-
-Isaac - Universidad EAFIT
